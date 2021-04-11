@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo</title>
+</head>
+
+<link rel="shortcut icon" href="HTML/imagens/icone-html.ico" type="image/x-icon">
+
+<style>
+
+    h1{
+        position: relative;
+        text-align: center;
+        font-family: cursive, Geneva, Tahoma, sans-serif
+    }
+
+    .bloco{
+        width: 50px;
+        height: 50px;
+        display: flex;
+        text-align: center;
+        justify-items: center;
+        align-items: center;
+        justify-content: center;
+        font-size: 50px;
+        color: black;
+    }
+    #geral{
+        width: 154px;
+        height: 150px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+        position: relative;
+        top: 20%;
+        cursor: pointer;
+        left: 43.9%;
+        margin-top: 2%;
+    }
+    #p1{
+        border-right: solid 1px black;
+        border-bottom: black 1px solid;
+    }
+    #p2{
+        border-left: solid 1px black;
+        border-bottom: black 1px solid;
+        border-right: solid 1px black;
+    }
+    #p3{
+        border-left: black 1px solid;
+        border-bottom: solid 1px black;
+    }
+    #p4{
+        border-top: black 1px solid;
+        border-right: solid 1px black;
+        border-bottom: black 1px solid;
+    }
+    #p5{
+        border: solid 1px black ;
+    }
+    #p6{
+        border-left: black 1px solid;
+        border-top: solid 1px black;
+        border-bottom: 1px solid black;
+    }
+    #p7{
+        border-top: black 1px solid;
+        border-right: solid 1px black;
+    }
+    #p8{
+        border-right: black 1px solid;
+        border-top: solid black 1px;
+        border-left: black 1px solid;
+    }
+    #p9{
+        border-left: solid 1px black;
+        border-top: black 1px solid;
+    }
+
+    #botao{
+        position: relative;
+        left: 47.7%;
+        border-radius: 9px;
+        cursor: pointer;
+
+    }
+    #botao:hover{
+        background: rgb(163, 153, 219);
+        box-shadow: 2px 2px 3px black;
+    }
+
+    #teste{
+        width: 100px;
+        height: 100px;
+        border: 1px solid black;
+    }
+    #p1:hover{
+        background: #02027588;
+        border-radius: 5px;
+        box-shadow: 0px 0px 15px #021d7588;
+    }
+    #p2:hover{
+        background: #02027588;
+        border-radius: 5px;
+        box-shadow: 0px 0px 15px #021d7588;
+    }
+    #p3:hover{
+        background: #02027588;
+        border-radius: 5px;
+        box-shadow: 0px 0px 15px #021d7588;
+    }
+    #p4:hover{
+        background: #02027588;
+        border-radius: 5px;
+        box-shadow: 0px 0px 15px #021d7588;
+    }
+    #p5:hover{
+        background: #02027588;
+        border-radius: 5px;
+        box-shadow: 0px 0px 15px #021d7588;
+    }
+    #p6:hover{
+        background: #02027588;
+        border-radius: 5px;
+        box-shadow: 0px 0px 15px #021d7588;
+    }
+    #p7:hover{
+        background: #02027588;
+        border-radius: 5px;
+        box-shadow: 0px 0px 15px #021d7588;
+    }
+    #p8:hover{
+        background: #02027588;
+        border-radius: 5px;
+        box-shadow: 0px 0px 15px #021d7588;
+    }
+    #p9:hover{
+        background: #02027588;
+        border-radius: 5px;
+        box-shadow: 0px 0px 15px #021d7588;
+    }
+    p{
+        position: relative;
+        text-align: center;
+        margin-top: 6%;
+        font-size: 12px;
+    }
+</style>
+<body>
+
+    <h1>Jogo da Velha</h1>
+
+    <input type="button" value="Iniciar" onclick="inicia()" id="botao">
+
+    <div id="geral">
+        <div id="p1" class="bloco" onclick="jogar(1)"></div>
+        <div id="p2" class="bloco" onclick="jogar(2)"></div>
+        <div id="p3" class="bloco" onclick="jogar(3)"></div>
+        <div id="p4" class="bloco" onclick="jogar(4)"></div>
+        <div id="p5" class="bloco" onclick="jogar(5)"></div>
+        <div id="p6" class="bloco" onclick="jogar(6)"></div>
+        <div id="p7" class="bloco" onclick="jogar(7)"></div>
+        <div id="p8" class="bloco" onclick="jogar(8)"></div>
+        <div id="p9" class="bloco" onclick="jogar(9)"></div>
+    </div>
+
+    <footer>
+
+        <p>&copy;<i>By Rodrigo L. Santos</i></p>
+
+    </footer>
+
+    <script>
+        var jogo = [];
+        var tabuleiro = [];
+        var quemjoga = 1
+        var jogando = true
+        var verifica
+        var ept;
+        var tmp;
+
+
+        function delay(){
+            tmp = 1000
+        }
+
+        function verificavitoria(){
+            //LINHAS
+            for(l = 0; l < 3; l++){
+                if(jogo[l][0] == jogo[l][1] && jogo[l][1] == jogo[l][2]){
+                    return jogo[l][0]
+                }
+            }
+            //COLUNAS
+            for(c = 0; c < 3; c++){
+                if(jogo[0][c] == jogo[1][c] && jogo[1][c] == jogo[2][c]){
+                    return jogo[0][c]
+                }
+            }
+            //DIAGONAIS
+            if(jogo[0][0] == jogo[1][1] && jogo[1][1] == jogo[2][2]){
+                return jogo[0][0]
+            }
+            if(jogo[0][2] == jogo[1][1] && jogo[1][1] == jogo[2][0]){
+                return jogo[0][2]
+            }
+            return ''
+        }
+
+        jogo[0][0].addEventListener('touchstart', function(){
+            jogar(p)
+        })
+
+
+        function jogar(p){
+            if(jogando && quemjoga == 1){
+                switch(p){
+                    case 1:
+                        if(jogo[0][0] == ''){
+                            jogo[0][0] = 'X'
+                            quemjoga = 0
+                        }
+                        break
+                    case 2:
+                        if(jogo[0][1] == ''){
+                            jogo[0][1] = 'X'
+                            quemjoga = 0
+                        }
+                        break
+                    case 3:
+                        if(jogo[0][2] == ''){
+                            jogo[0][2] = 'X'
+                            quemjoga = 0
+                        }
+                        break
+                    case 4:
+                        if(jogo[1][0] == ''){
+                            jogo[1][0] = 'X'
+                            quemjoga = 0
+                        }
+                        break
+                    case 5:
+                        if(jogo[1][1] == ''){
+                            jogo[1][1] = 'X'
+                            quemjoga = 0
+                        }
+                        break
+                    case 6:
+                        if(jogo[1][2] == ''){
+                            jogo[1][2] = 'X'
+                            quemjoga = 0
+                        }
+                        break
+                    case 7:
+                        if(jogo[2][0] == ''){
+                            jogo[2][0] = 'X'
+                            quemjoga = 0
+                        }
+                        break
+                    case 8:
+                        if(jogo[2][1] == ''){
+                            jogo[2][1] = 'X'
+                            quemjoga = 0
+                        }
+                        break
+                    case 9:
+                        if(jogo[2][2] == ''){
+                            jogo[2][2] = 'X'
+                            quemjoga = 0
+                        }
+                        break
+                }
+                atualizatabuleiro()
+                empate()
+                verifica = verificavitoria()
+                   if(verifica != ''){
+                   alert(`${verifica} Venceu!!`)
+                    jogando = false
+                }
+            }
+            if(jogando && quemjoga == 0){
+                switch(p){
+                    case 1:
+                        if(jogo[0][0] == ''){
+                            jogo[0][0] = 'O'
+                            quemjoga = 1
+                        }
+                        break
+                    case 2:
+                        if(jogo[0][1] == ''){
+                            jogo[0][1] = 'O'
+                            quemjoga = 1
+                        }
+                        break
+                    case 3:
+                        if(jogo[0][2] == ''){
+                            jogo[0][2] = 'O'
+                            quemjoga = 1
+                        }
+                        break
+                    case 4:
+                        if(jogo[1][0] == ''){
+                            jogo[1][0] = 'O'
+                            quemjoga = 1
+                        }
+                        break
+                    case 5:
+                        if(jogo[1][1] == ''){
+                            jogo[1][1] = 'O'
+                            quemjoga = 1
+                        }
+                        break
+                    case 6:
+                        if(jogo[1][2] == ''){
+                            jogo[1][2] = 'O'
+                            quemjoga = 1
+                        }
+                        break
+                    case 7:
+                        if(jogo[2][0] == ''){
+                            jogo[2][0] = 'O'
+                            quemjoga = 1
+                        }
+                        break
+                    case 8:
+                        if(jogo[2][1] == ''){
+                            jogo[2][1] = 'O'
+                            quemjoga = 1
+                        }
+                        break
+                    case 9:
+                        if(jogo[2][2] == ''){
+                            jogo[2][2] = 'O'
+                            quemjoga = 1
+                        }
+                        break
+                }
+                atualizatabuleiro()
+                verifica = verificavitoria()
+                if(verifica != ''){
+                   setTimeout(alert(`${verifica} Venceu!!!`),1000)
+                    jogando = false
+                }
+            }
+        }
+
+        function atualizatabuleiro(){
+            for(l = 0; l < 3; l++){
+                for(c = 0; c < 3; c++){
+                    if(jogo[l][c] == 'X'){
+                        tabuleiro[l][c].innerHTML = 'X'
+                        tabuleiro[l][c].style.cursor = 'default'
+                    }else if(jogo[l][c] == 'O'){
+                        tabuleiro[l][c].innerHTML = 'O'
+                        tabuleiro[l][c].style.cursor = 'default'
+                    }else if(jogo[l][c] == ''){
+                        tabuleiro[l][c].innerHTML = ''
+                        tabuleiro[l][c].style.cursor = 'pointer'
+                    }
+                }
+            }
+        }
+
+        function inicia(){
+            quemjoga = 1
+            jogando = true
+            jogo = [
+                ['','',''],
+                ['','',''],
+                ['','','']
+            ];
+
+            tabuleiro = [
+                [document.getElementById('p1'), document.getElementById('p2'), document.getElementById('p3')],
+                [document.getElementById('p4'), document.getElementById('p5'), document.getElementById('p6')],
+                [document.getElementById('p7'), document.getElementById('p8'), document.getElementById('p9')]
+            ];
+
+            atualizatabuleiro()
+
+
+        }
+
+        function empate(){
+            if(jogo[0][0] != '' && jogo[0][1] != '' && jogo[0][2] != '' && jogo[1][0] != '' && jogo[1][1] != '' && jogo[1][2] != '' && jogo[2][0] != '' && jogo[2][1] != '' && jogo[2][2] != ''){
+                alert('Empate')
+                jogando = false
+            }
+        }
+
+        window.addEventListener('load', inicia)
+
+
+    </script>
+    
+</body>
+</html>
